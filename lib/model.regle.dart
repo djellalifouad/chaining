@@ -3,6 +3,6 @@ class Regle {
   String b;
   Regle(this.a, this.b);
   toString() {
-    return this.a + "=>" + this.b;
+    return this.a + "->" + this.b;
   }
 }

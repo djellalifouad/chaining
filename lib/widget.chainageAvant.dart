@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'chainageAvant.controller.dart';
 import 'model.regle.dart';
+import 'package:sizer/sizer.dart';
 
 class ChainageAvant extends StatefulWidget {
   @override
@@ -10,7 +11,8 @@ class ChainageAvant extends StatefulWidget {
 
 class _ChainageAvantState extends State<ChainageAvant> {
   TextEditingController baseDeFaitController = TextEditingController();
-  TextEditingController listeDesRegleController = TextEditingController();
+  TextEditingController listeDesRegleController1 = TextEditingController();
+  TextEditingController listeDesRegleController2 = TextEditingController();
   List<Regle> regles = [
     //   Regle("E.B", "C"),
     //   Regle("F.D", "A"),
@@ -23,11 +25,13 @@ class _ChainageAvantState extends State<ChainageAvant> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.orange,
         actions: [
           InkWell(
             onTap: () {
               baseDeFaitController.clear();
-              listeDesRegleController.clear();
+              listeDesRegleController1.clear();
+              listeDesRegleController2.clear();
               regles.clear();
               fait.clear();
               setState(() {});
@@ -41,19 +45,39 @@ class _ChainageAvantState extends State<ChainageAvant> {
         title: Text("Chainage Avant"),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           horizontal: 10,
         ),
         child: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(
-                height: 20,
+                height: 3.h,
               ),
-              TextFormField(
-                maxLength: 1,
-                decoration: InputDecoration(hintText: "Entrer un fait"),
-                controller: baseDeFaitController,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.w),
+                child: TextFormField(
+                  onChanged: (String cc) {
+                    baseDeFaitController.text = cc.toUpperCase();
+                  },
+                  maxLength: 1,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(7.sp),
+                        borderSide:
+                            BorderSide(color: Colors.purple, width: 1.sp)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(7.sp),
+                        borderSide:
+                            BorderSide(color: Colors.purple, width: 0.5.sp)),
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  controller: baseDeFaitController,
+                ),
+              ),
+              SizedBox(
+                height: 2.h,
               ),
               FlatButton(
                 onPressed: () {
@@ -62,30 +86,82 @@ class _ChainageAvantState extends State<ChainageAvant> {
                   setState(() {});
                 },
                 color: Colors.purple,
-                child: Text(
+                child: const Text(
                   "Ajouter un fait",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 6.h,
               ),
               Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                      "pour les régle suivez le format suivat A.B=>C donc A et B Alors C")),
-              TextFormField(
-                decoration: InputDecoration(hintText: "Entrer une régle"),
-                controller: listeDesRegleController,
+                  alignment: Alignment.center,
+                  child: Text("séparez avec des points")),
+              SizedBox(
+                height: 2.h,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        hintText: "exemple   A.B",
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7.sp),
+                            borderSide:
+                                BorderSide(color: Colors.purple, width: 1.sp)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7.sp),
+                            borderSide: BorderSide(
+                                color: Colors.purple, width: 0.5.sp)),
+                        fillColor: Colors.white,
+                        filled: true,
+                      ),
+                      controller: listeDesRegleController1,
+                    ),
+                  ),
+                  Icon(Icons.arrow_forward_rounded),
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        hintText: "exemple   C.D",
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7.sp),
+                            borderSide:
+                                BorderSide(color: Colors.purple, width: 1.sp)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7.sp),
+                            borderSide: BorderSide(
+                                color: Colors.purple, width: 0.5.sp)),
+                        fillColor: Colors.white,
+                        filled: true,
+                      ),
+                      controller: listeDesRegleController2,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 2.h,
               ),
               FlatButton(
                 onPressed: () {
-                  List<String> t = listeDesRegleController.text.split("=>");
-                  Regle regle =
-                      new Regle(t[0].toUpperCase(), t[1].toUpperCase());
-                  regles.add(regle);
-                  listeDesRegleController.clear();
+                  List<String> t =
+                      listeDesRegleController2.text.toUpperCase().split(".");
+                  for (int i = 0; i < t.length; ++i) {
+                    Regle regle = new Regle(
+                        listeDesRegleController1.text.toUpperCase(),
+                        t[i].toUpperCase());
+                    regles.add(regle);
+                  }
+                  listeDesRegleController1.clear();
+                  listeDesRegleController2.clear();
                   setState(() {});
+                  // Regle regle =
+                  //     new Regle(t[0].toUpperCase(), t[1].toUpperCase());
+                  // regles.add(regle);
+                  // listeDesRegleController.clear();
+                  // setState(() {});
                 },
                 color: Colors.purple,
                 child: Text(
@@ -94,7 +170,7 @@ class _ChainageAvantState extends State<ChainageAvant> {
                 ),
               ),
               SizedBox(
-                height: 40,
+                height: 8.h,
               ),
               Align(
                   alignment: Alignment.centerLeft,
