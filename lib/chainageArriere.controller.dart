@@ -10,10 +10,6 @@ calcArriere(BuildContext context, List<Regle> regles, List<String> baseDeFait,
   List<String> pile = [goal.toUpperCase()];
   List<String> entailed = [];
   List<Regle> reglesUsed = [];
-  print("list regle");
-  print(regles);
-  print(baseDeFait);
-
   while (pile.isNotEmpty) {
     String currentSymbol = pile.removeLast();
     entailed.add(currentSymbol);

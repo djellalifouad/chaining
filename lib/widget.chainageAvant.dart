@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'chainageAvant.controller.dart';
@@ -191,6 +194,39 @@ class _ChainageAvantState extends State<ChainageAvant> {
                 color: Colors.purple,
                 child: Text(
                   "Chainage Avant",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              FlatButton(
+                onPressed: () async {
+                  FilePickerResult? result =
+                      await FilePicker.platform.pickFiles(
+                    type: FileType.custom,
+                    allowedExtensions: ['txt'],
+                  );
+                  if (result != null) {
+                    List<String> _list =
+                        await new File(result.files.first.path.toString())
+                            .readAsLines();
+                    List<String> listString = [];
+                    listString = _list[0].split(",").toList();
+                    for (int i = 0; i < listString.length; i++) {
+                      List<String> dataRegle = listString[i].split('=>');
+                      regles.add(Regle(dataRegle[0].toUpperCase(),
+                          dataRegle[1].toUpperCase()));
+                    }
+                    setState(() {});
+                    listString = _list[1].split(",").toList();
+                    for (int i = 0; i < listString.length; i++) {
+                      fait.add(listString[i].toUpperCase());
+                    }
+                    setState(() {});
+                      calcAvant(context, regles, fait);
+                  }
+                },
+                color: Colors.purple,
+                child: Text(
+                  "Utiliser un fichier text",
                   style: TextStyle(color: Colors.white),
                 ),
               ),
